@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Python 粒子圣诞树。运行动画，或导出可独立转发的 HTML 贺卡。"""
+"""Python/Pygame 粒子圣诞树主程序，附带独立 HTML 贺卡导出。"""
 from __future__ import annotations
 
 import argparse
