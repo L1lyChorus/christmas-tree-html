@@ -1,0 +1,20 @@
+name: Refresh language statistics
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Python and HTML export
+        run: |
+          python3 -m py_compile tree.py
+          python3 tree.py --export /tmp/christmas-card.html
+      - name: Trigger repository language analysis with a Git push
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit --allow-empty -m 'Refresh language statistics after Python migration'
+          git push origin HEAD:main
