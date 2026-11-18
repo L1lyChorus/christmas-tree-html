@@ -8,13 +8,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify Python and HTML export
+      - name: Check actual language classification
+        continue-on-error: true
+        run: docker run --rm -v "$PWD:$PWD" -w "$PWD" ghcr.io/github-linguist/linguist:latest github-linguist --breakdown
+      - name: Clarify Python module description and verify export
         run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('tree.py')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('Python 粒子圣诞树。运行动画，或导出可独立转发的 HTML 贺卡。', 'Python/Pygame 粒子圣诞树主程序，附带独立 HTML 贺卡导出。')
+          path.write_text(text, encoding='utf-8')
+          PY
           python3 -m py_compile tree.py
           python3 tree.py --export /tmp/christmas-card.html
-      - name: Trigger repository language analysis with a Git push
+      - name: Push Python source change to trigger language analysis
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit --allow-empty -m 'Refresh language statistics after Python migration'
-          git push origin HEAD:main
+          git add tree.py
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clarify Python entry point and refresh language analysis'
+            git push origin HEAD:main
+          fi
