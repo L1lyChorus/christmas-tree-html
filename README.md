@@ -1,38 +1,56 @@
-# 一棵圣诞树 · Christmas Tree
+# 一棵圣诞树 · Christmas Tree (Python)
 
-一个可以离线打开、直接分享的动态圣诞树贺卡。所有样式和 JavaScript 都包含在一个 HTML 文件中，无需安装依赖或启动服务器。
+以 **Python** 为主体的动态粒子圣诞树。使用 Pygame 播放桌面动画，并提供独立 HTML 贺卡，方便直接转发给朋友。
 
-## 效果与功能
+## 运行 Python 动画
 
-- 缓缓旋转的三维粒子圣诞树与螺旋灯带
-- 树顶爱心、地面光环、闪烁星光与飘雪
-- 绯樱、鎏金、冰蓝三种配色
-- 拖动旋转，点击释放星光
-- 编辑祝福语和署名，导出专属 HTML 贺卡
-- 支持暂停和关闭飘雪，适配电脑与手机屏幕
-- 尊重系统的减少动态效果设置
+需要 Python 3.10 或更新版本。在项目目录执行：
 
-## 使用
+```bash
+python -m pip install -r requirements.txt
+python tree.py
+```
 
-1. 下载本仓库，或单独下载 `index.html`。
-2. 在浏览器中打开 `index.html`，即可观看动画。
-3. 点击「写祝福」编辑文字，再点击「保存贺卡」。
-4. 将导出的 HTML 文件发给朋友，朋友下载后用浏览器打开即可。
+自定义祝福和配色：
 
-手机聊天软件的内置预览可能不运行 JavaScript，请下载后在浏览器中打开。文件不加载外部字体、图片或脚本，也不会上传祝福语。
+```bash
+python tree.py --wish "愿你的冬天，有光，也有温暖。" --name "来自你的朋友" --theme 0
+```
 
-## 修改默认祝福
+- 拖动鼠标：旋转圣诞树
+- 空格：暂停或继续
+- `T`：切换绯樱 / 鎏金 / 冰蓝配色
+- `S`：开关飘雪
+- `E`：在当前工作目录导出「送你一棵圣诞树.html」；同名文件会被覆盖
+- `Esc`：退出
 
-用文本编辑器打开 `index.html`，找到 `id="card-config"` 的 JSON 配置，修改 `wish`（祝福语）、`name`（署名）与 `theme`（0 绯樱 / 1 鎏金 / 2 冰蓝）。页面上的编辑按钮也可完成同样的操作。
+## 生成方便分享的 HTML
 
-## 技术
+仅导出文件使用 Python 标准库，**无需安装 Pygame**：
 
-原生 HTML、CSS、JavaScript 和 Canvas 2D，通过三维坐标投影呈现粒子旋转。无构建步骤，无第三方运行依赖。建议使用较新版本的 Safari、Chrome、Edge 或 Firefox。
+```bash
+python tree.py --export 圣诞树.html --wish "圣诞快乐，愿你平安喜乐。" --name "送给特别的你" --theme 0
+```
+
+将生成的 HTML 文件发给朋友，对方下载后用浏览器打开即可，无需联网或安装 Python。HTML 中也可以点击「写祝福」修改文字，再点击「保存贺卡」导出。
+
+手机聊天软件内置预览可能不执行动画，请下载后用浏览器打开。
+
+## 项目结构
+
+| 文件 | 用途 |
+| --- | --- |
+| `tree.py` | Python 主程序：生成三维粒子、投影、动画循环与 HTML 导出 |
+| `requirements.txt` | Python 桌面动画依赖 |
+| `index.html` | 离线分享版，也是 Python 导出时使用的模板 |
+| `LICENSE` | MIT 开源许可证 |
+
+Python 桌面版与 HTML 分享版使用相同的视觉设计，分别实现动画。浏览器无法直接运行普通 Python/Pygame 脚本，因此分享版保留必要的 Canvas/JavaScript；HTML 不依赖外部资源，也不会上传祝福语。GitHub 语言统计将 HTML 作为生成的分享配套文件处理。
 
 ## 致谢
 
-视觉创意参考 [ZekangLi-Zico/Christmas-Tree](https://github.com/ZekangLi-Zico/Christmas-Tree) 中的粉色螺旋粒子树、树顶爱心与地面光环。原项目使用 Python/Pygame；本项目以原生 Canvas 独立实现浏览器版本。
+视觉创意参考 [ZekangLi-Zico/Christmas-Tree](https://github.com/ZekangLi-Zico/Christmas-Tree) 的粉色螺旋粒子树、树顶爱心与地面光环。本项目独立实现 Python 桌面版与浏览器分享版。
 
 ## 许可证
 
-本仓库代码采用 [MIT License](LICENSE)。上述参考项目的代码与素材不包含在本仓库中，亦不由本仓库的许可证覆盖。
+本仓库代码采用 [MIT License](LICENSE)。参考项目代码与素材不包含在本仓库中，亦不由本仓库的许可证覆盖。
