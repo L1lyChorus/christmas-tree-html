@@ -1,2 +1,5 @@
-# HTML is the standalone sharing companion; Python is the primary source.
-index.html linguist-generated=true
+# Count Python source in repository language statistics.
+*.py linguist-language=Python linguist-detectable=true
+
+# Standalone HTML is the sharing companion; exclude it from language statistics.
+*.html linguist-detectable=false
