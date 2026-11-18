@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check actual language classification
         continue-on-error: true
-        run: docker run --rm -v "$PWD:$PWD" -w "$PWD" ghcr.io/github-linguist/linguist:latest github-linguist --breakdown
+        run: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:$PWD" -w "$PWD" ghcr.io/github-linguist/linguist:latest github-linguist --breakdown
       - name: Clarify Python module description and verify export
         run: |
           python3 - <<'PY'
